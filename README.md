@@ -37,6 +37,8 @@ REGO.exe
 
 ### Functions
 
+<u> Database is not prepared yet... </u>
+
 - **Scan**
 Scan security related registry based on our database.
 - **Monitor**
