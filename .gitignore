@@ -1,0 +1,6 @@
+# no dump, diff files
+*.dump
+*.diff
+
+# no python cache file
+__pycache__
