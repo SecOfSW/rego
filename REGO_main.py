@@ -168,6 +168,7 @@ class DiffWorker(QThread):
             return
 
         self.working = False
+        os.system("explorer.exe reg.diff")
         self.doneSignal.emit(True)
 
 class DumpClass(QDialog, form_dump):
