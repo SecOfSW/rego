@@ -39,15 +39,12 @@ REGO.exe
 
 - **Scan**
 Scan security related registry based on our database.
-<br>
 - **Monitor**
 Monitoring registry based on our database.
-<br>
 - **Dump**
 Dump registry related to users.
 `HKEY_CURRENT_USER` and `HKEY_USERS` will be dumped.
 Also, support making diff of two dump files.
-<br>
 - **Utility**
 Activate functions with one-click.
 <u> Only DarkMode/WhiteMode works for now. </u>
