@@ -1,0 +1,117 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'Main.ui'
+#
+# Created by: PyQt5 UI code generator 5.13.0
+#
+# WARNING! All changes made in this file will be lost!
+
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Ui_Main(object):
+    def setupUi(self, Main):
+        Main.setObjectName("Main")
+        Main.setEnabled(True)
+        Main.resize(312, 584)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(Main.sizePolicy().hasHeightForWidth())
+        Main.setSizePolicy(sizePolicy)
+        Main.setMinimumSize(QtCore.QSize(312, 584))
+        Main.setMaximumSize(QtCore.QSize(312, 584))
+        font = QtGui.QFont()
+        font.setFamily("NewJumja")
+        Main.setFont(font)
+        self.verticalLayoutWidget = QtWidgets.QWidget(Main)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 100, 311, 391))
+        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setContentsMargins(50, 0, 50, 0)
+        self.verticalLayout.setSpacing(50)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.buttonToScan = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.buttonToScan.sizePolicy().hasHeightForWidth())
+        self.buttonToScan.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("Ink Free")
+        font.setPointSize(25)
+        self.buttonToScan.setFont(font)
+        self.buttonToScan.setObjectName("buttonToScan")
+        self.verticalLayout.addWidget(self.buttonToScan)
+        self.buttonToMonitor = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.buttonToMonitor.sizePolicy().hasHeightForWidth())
+        self.buttonToMonitor.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("Ink Free")
+        font.setPointSize(25)
+        self.buttonToMonitor.setFont(font)
+        self.buttonToMonitor.setObjectName("buttonToMonitor")
+        self.verticalLayout.addWidget(self.buttonToMonitor)
+        self.buttonToDump = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.buttonToDump.setEnabled(True)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.buttonToDump.sizePolicy().hasHeightForWidth())
+        self.buttonToDump.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("Ink Free")
+        font.setPointSize(25)
+        self.buttonToDump.setFont(font)
+        self.buttonToDump.setObjectName("buttonToDump")
+        self.verticalLayout.addWidget(self.buttonToDump)
+        self.buttonToUtil = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.buttonToUtil.sizePolicy().hasHeightForWidth())
+        self.buttonToUtil.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("Ink Free")
+        font.setPointSize(25)
+        self.buttonToUtil.setFont(font)
+        self.buttonToUtil.setObjectName("buttonToUtil")
+        self.verticalLayout.addWidget(self.buttonToUtil)
+        self.MainName = QtWidgets.QLabel(Main)
+        self.MainName.setGeometry(QtCore.QRect(30, 0, 241, 81))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.MainName.sizePolicy().hasHeightForWidth())
+        self.MainName.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(45)
+        self.MainName.setFont(font)
+        self.MainName.setAlignment(QtCore.Qt.AlignCenter)
+        self.MainName.setObjectName("MainName")
+
+        self.retranslateUi(Main)
+        QtCore.QMetaObject.connectSlotsByName(Main)
+
+    def retranslateUi(self, Main):
+        _translate = QtCore.QCoreApplication.translate
+        Main.setWindowTitle(_translate("Main", "Main"))
+        self.buttonToScan.setText(_translate("Main", "Scan"))
+        self.buttonToMonitor.setText(_translate("Main", "Monitor"))
+        self.buttonToDump.setText(_translate("Main", "Dump"))
+        self.buttonToUtil.setText(_translate("Main", "Utility"))
+        self.MainName.setText(_translate("Main", "REGO"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Main = QtWidgets.QDialog()
+    ui = Ui_Main()
+    ui.setupUi(Main)
+    Main.show()
+    sys.exit(app.exec_())
