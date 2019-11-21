@@ -4,5 +4,10 @@
 
 # no python cache file
 __pycache__
+
+# setting file
 *.xml
 *.iml
+
+# no scanner file
+.scannerwork/
