@@ -4,6 +4,9 @@ One-Click Registry Management Tool with GUI
 
 ## Getting Started
 
+### OS
+Windows10
+
 ### Prerequisites
 
 Following python modules are required
