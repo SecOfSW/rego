@@ -4,3 +4,5 @@
 
 # no python cache file
 __pycache__
+*.xml
+*.iml
