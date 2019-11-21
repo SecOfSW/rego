@@ -333,7 +333,7 @@ class WindowClass(QMainWindow, form_main):
         # print("btn_4 Clicked")
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
+    app = QApplication([])
     myWindow = WindowClass()
     myWindow.show()
     app.exec_()
