@@ -29,10 +29,11 @@ attr_dict =
 # Class for RegMonitor
 class REGO_reg_monitor(REGO_reg.REGO_reg):
     def __init__(self):
+        self.key_input = []
+        self.attr_input = []
         # self.key_input = data.mon_reg.key_input
-        self.key_input = [(winreg.HKEY_CURRENT_USER, 'TestValue')]
         # self.attr_input = data.mon_reg.attr_input
-        self.attr_input = [(winreg.HKEY_CURRENT_USER, 'TestValue', 'asdf')]
+        self.key_input.append((winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Run'))
 
     def monitor(self):
         # INITIALIZE key_dict
@@ -77,13 +78,13 @@ class REGO_reg_monitor(REGO_reg.REGO_reg):
             except:
                 continue
             for __ in attributeList:
-                output += "{0}\\{1}\\{2}\t".format(HIVE, PATH, __[0])
+                output += "[*] HIVE : {0}\nPATH : {1}\\{2}\n".format(REGO_reg.hiveIntToStr(HIVE), PATH, __[0])
                 if __[0] not in attr_dict.keys():
-                    output += "{0}\tNEW!\n".format(__[1])
+                    output += "VALUE : {0}\t****NEW****\n\n".format(__[1])
                 elif __[1] != attr_dict[__[0]]:
-                    output += "{0}\tModified!\n".format(__[1])
+                    output += "VALUE : {0}\t****Modified****\n\n".format(__[1])
                 else:
-                    output += "{0}\n".format(__[1])
+                    output += "VALUE : {0}\n\n".format(__[1])
             
         # Attr Check
         for _ in self.attr_input:
@@ -94,13 +95,13 @@ class REGO_reg_monitor(REGO_reg.REGO_reg):
                 attributeList = self.getReg(HIVE, PATH)
             except:
                 continue
-            output += "{0}\\{1}\\{2}\t".format(HIVE, PATH, ATTRIBUTENAME)
+            output += "[*] HIVE : {0}\nPATH : {1}\\{2}\n".format(REGO_reg.hiveIntToStr(HIVE), PATH, ATTRIBUTENAME)
             for __ in attributeList:
                 if __[0] == ATTRIBUTENAME:
                     if __[1] != self.attr_dict[(HIVE, PATH, ATTRIBUTENAME)]:
-                        output += "{0}\tModified!\n".format(__[1])
+                        output += "VALUE : {0}\t****Modified****\n\n".format(__[1])
                     else:
-                        output += "{0}\n".format(__[1])
+                        output += "VALUE : {0}\n\n".format(__[1])
     
         print()
         return output

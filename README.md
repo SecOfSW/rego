@@ -4,6 +4,9 @@ One-Click Registry Management Tool with GUI
 
 ## Getting Started
 
+### OS
+Windows10
+
 ### Prerequisites
 
 Following python modules are required
@@ -17,7 +20,7 @@ pip install jsondiff
 
 
 ```
-git clone https://github.com/SecOfSW/rego
+git clone https://github.com/SecOfSW/rego.git
 ```
 
 
@@ -29,7 +32,7 @@ After Clone, just run `REGO_main.py`
 python3 ./REGO_main.py
 ```
 
-or run executable file
+or run executable file at release page
 
 ```
 REGO.exe
@@ -37,7 +40,7 @@ REGO.exe
 
 ### Functions
 
-<u> Database is not prepared yet... </u>
+<u> Database is not fully prepared yet... </u>
 
 - **Scan**
 Scan security related registry based on our database.
