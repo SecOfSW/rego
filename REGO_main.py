@@ -15,6 +15,8 @@ import ui.uiMain
 import ui.uiMonitor
 import ui.uiScan
 import ui.uiUtil
+
+import os
 """
     1. 데이터 선별해서 넣기 
     2. 검사 기능 
@@ -168,7 +170,9 @@ class DiffWorker(QThread):
             return
 
         self.working = False
-        os.system("explorer.exe reg.diff")
+        path="./"
+        path=os.path.realpath(path)
+        os.startfile(path)
         self.doneSignal.emit(True)
 
 class DumpClass(QDialog, form_dump):
