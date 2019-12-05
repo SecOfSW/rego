@@ -19,12 +19,11 @@ Following python modules are required
 
 ```
 pip install -r requirements.txt
-``
-
+```
 
 ## Running the tools
 
-After Clone, just run `REGO_main.py`
+After cloning the repo, just run `REGO_main.py`
 
 ```
 python3 ./REGO_main.py
