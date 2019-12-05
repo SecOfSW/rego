@@ -32,7 +32,8 @@ sec_reg = reg_scan_data()
 mon_reg = reg_monitor_data()
 
 # WEBCAM SHOULD BE TURNED OFF
-sec_reg.add_reg(HIVE=HKEY_LOCAL_MACHINE, 
+sec_reg.add_reg(NAME="WEBCAM",
+                HIVE=HKEY_LOCAL_MACHINE, 
                 PATH="SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\webcam", 
                 ATTRIBUTE="Value", 
                 TYPE=REG_SZ, 
@@ -42,7 +43,8 @@ sec_reg.add_reg(HIVE=HKEY_LOCAL_MACHINE,
                 )
 
 # FILE_EXT SHOULD BE REVEALED
-sec_reg.add_reg(HIVE=HKEY_LOCAL_MACHINE,
+sec_reg.add_reg(NAME="FILE_EXT",
+                HIVE=HKEY_LOCAL_MACHINE,
                 PATH="Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Folder\\HideFileExt",
                 ATTRIBUTE="CheckedValue",
                 TYPE=REG_DWORD,
@@ -51,7 +53,8 @@ sec_reg.add_reg(HIVE=HKEY_LOCAL_MACHINE,
                 DESC="fileExt should be revealed"
                 )
 
-sec_reg.add_reg(HIVE=HKEY_LOCAL_MACHINE,
+sec_reg.add_reg(NAME="TEST",
+                HIVE=HKEY_LOCAL_MACHINE,
                 PATH="Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\FakeSubkeyToTest",
                 ATTRIBUTE="CheckedValue",
                 TYPE=REG_DWORD,
@@ -62,14 +65,15 @@ sec_reg.add_reg(HIVE=HKEY_LOCAL_MACHINE,
                 
 #################################################################################################
 # TEST
-test_reg = reg_scan_data()
+# test_reg = reg_scan_data()
 
-# WEBCAM SHOULD BE TURNED OFF
-test_reg.add_reg(HIVE=HKEY_LOCAL_MACHINE, 
-                PATH="SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\webcam", 
-                ATTRIBUTE="Value", 
-                TYPE=REG_SZ, 
-                VULN_VAL=["Allow"], 
-                SAFE_VAL=["Deny"],
-                DESC="webcam should be turned off"
-                )
+# # WEBCAM SHOULD BE TURNED OFF
+# test_reg.add_reg(NAME="TEST2",
+#                 HIVE=HKEY_LOCAL_MACHINE, 
+#                 PATH="SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\webcam", 
+#                 ATTRIBUTE="Value", 
+#                 TYPE=REG_SZ, 
+#                 VULN_VAL=["Allow"], 
+#                 SAFE_VAL=["Deny"],
+#                 DESC="webcam should be turned off"
+#                 )

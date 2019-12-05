@@ -26,9 +26,9 @@ class Ui_Monitor(object):
         self.buttonToStart = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.buttonToStart.setObjectName("buttonToStart")
         self.horizontalLayout_2.addWidget(self.buttonToStart)
-        self.buttonToSettings = QtWidgets.QPushButton(self.horizontalLayoutWidget)
-        self.buttonToSettings.setObjectName("buttonToSettings")
-        self.horizontalLayout_2.addWidget(self.buttonToSettings)
+        # self.buttonToSettings = QtWidgets.QPushButton(self.horizontalLayoutWidget)
+        # self.buttonToSettings.setObjectName("buttonToSettings")
+        # self.horizontalLayout_2.addWidget(self.buttonToSettings)
 
         self.retranslateUi(Monitor)
         QtCore.QMetaObject.connectSlotsByName(Monitor)
@@ -37,4 +37,4 @@ class Ui_Monitor(object):
         _translate = QtCore.QCoreApplication.translate
         Monitor.setWindowTitle(_translate("Monitor", "Monitor"))
         self.buttonToStart.setText(_translate("Monitor", "Start"))
-        self.buttonToSettings.setText(_translate("Monitor", "Settings"))
+        # self.buttonToSettings.setText(_translate("Monitor", "Settings"))

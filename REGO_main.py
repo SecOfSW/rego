@@ -16,18 +16,15 @@ import ui.uiMonitor
 import ui.uiScan
 import ui.uiUtil
 
+import struct
+import sys
+from binascii import unhexlify
+from datetime import datetime, timedelta
+
 import os
 """
     1. 데이터 선별해서 넣기 
-    2. 검사 기능 
-    3. 모니터링 기능    - 비교 기준값 결정해야함
     (4). 레지스트리를 어떤 프로그램이 변경하고자 하는지 확인가능한가
-    5. 잡동사니(유틸)
-    -3. GUI 기본적인 구현               https://wikidocs.net/35485
-    -2. 레지스트리 덤프/디프 (regipy)   https://pypi.org/project/regipy/
-    -1. PPT 만들기
-    --. 사용자 정의 감시 목록
-
 """
 
 # load UI file
@@ -61,7 +58,7 @@ class ScanWorker(QThread):
                 self.countSignal.emit("{}:{}".format(str(k), str(d[k])))
             self.countSignal.emit("\n")
             self.changeValue.emit(int(i * 100 / len(result)))
-        self.countSignal.emit("Scan Finished\n")
+        self.countSignal.emit("[+] (Scan Finished) Please check 'report.docx'.\n")
         self.doneSignal.emit(True)
         
 class ScanClass(QDialog, form_scan):
@@ -70,7 +67,7 @@ class ScanClass(QDialog, form_scan):
         self.setupUi(self)
         self.setFixedSize(self.width(), self.height())
 
-        self.buttonToSettings.clicked.connect(self.settingsBtnFunc)
+        # self.buttonToSettings.clicked.connect(self.settingsBtnFunc)
         self.buttonToStart.clicked.connect(self.startBtnFunc)
         
         self.th = ScanWorker()
@@ -78,8 +75,8 @@ class ScanClass(QDialog, form_scan):
         self.th.changeValue.connect(self.progressBar.setValue)
         self.th.doneSignal.connect(self.buttonToStart.setEnabled)
 
-    def settingsBtnFunc(self):
-        pass
+    # def settingsBtnFunc(self):
+    #     pass
 
     def startBtnFunc(self):
         self.th.start()
@@ -109,16 +106,15 @@ class MonitorClass(QDialog, form_monitor):
         self.setupUi(self)
         self.setFixedSize(self.width(), self.height())
 
-        self.buttonToSettings.clicked.connect(self.settingsBtnFunc)
+        # self.buttonToSettings.clicked.connect(self.settingsBtnFunc)
         self.buttonToStart.clicked.connect(self.startBtnFunc)
         self.buttonToStart.status = False
 
         self.th = MonitorWorker()
         self.th.countSignal.connect(self.textUpdate)
 
-    def settingsBtnFunc(self):
-        pass
-        # print("setting button clicked")
+    # def settingsBtnFunc(self):
+        # pass
 
     def startBtnFunc(self):
         if self.buttonToStart.status:
@@ -253,27 +249,67 @@ class UtilClass(QDialog, form_util):
         self.darkmodeButton.clicked.connect(self.darkmodeFunc)
         self.noWinUpdateButton.clicked.connect(self.noWinUpdateFunc)
         self.noWebcamButton.clicked.connect(self.noWebcamFunc)
-        self.systemTimeButton.clicked.connect(self.systemTimeFunc)
+        self.regeditButton.clicked.connect(self.regeditFunc)
         self.computerInfoButton.clicked.connect(self.computerInfoFunc)
-        self.userInfoButton.clicked.connect(self.userInfoFunc)
+        self.lastShutdownTimeButton.clicked.connect(self.lastShutdownTimeFunc)
 
+        self.noUpdate = False
         r = REGO_reg.REGO_reg()
-        result = r.getReg(winreg.HKEY_CURRENT_USER, "Software\Microsoft\Windows\CurrentVersion\Themes\Personalize")
+        try:
+            result = r.getReg(winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize")
+            for r in result:
+                if r[0] == 'AppsUseLightTheme':
+                    if r[1] == 0:
+                        self.darkmodeButton.setText("White Mode")
+                        self.dark = True
+                    else:
+                        self.darkmodeButton.setText("Dark Mode")
+                        self.dark = False
+        except: 
+            self.dark = False
+            self.darkmodeButton.setText("Dark Mode")
+        
+        
+        r = REGO_reg.REGO_reg()
+        try:
+            result = r.getReg(winreg.HKEY_CURRENT_USER, "Software\\Policies\\Microsoft\\Windows\\WindowsUpdate")
+            for r in result:
+                if r[0] == 'NoAutoUpdate':
+                    if r[1] == 0:
+                        self.noWinUpdateButton.setText("No Auto Update")
+                        self.noUpdate = True
+                    else:
+                        self.noWinUpdateButton.setText("Auto Update")
+                        self.noUpdate = False
+        except OSError as e:
+            print("AutoWinUpdate registry is NOT FOUND")
+            self.noUpdate = False
+            self.noWinUpdateButton.setText("Auto Update")
+        except Exception as e:
+            print("Unexpected Exception")
 
-        for r in result:
-            if r[0] == 'AppsUseLightTheme':
-                if r[1] == 0:
-                    self.darkmodeButton.setText("White Mode")
-                    self.dark = True
-                else:
-                    self.darkmodeButton.setText("Dark Mode")
-                    self.dark = False
+        
+        r = REGO_reg.REGO_reg()
+        try:
+            result = r.getReg(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\webcam")
+            for r in result:
+                if r[0] == 'Value':
+                    if r[1] == "Deny":
+                        self.noWebcamButton.setText("Webcam Enable")
+                        self.noWebcam = True
+                    else:
+                        self.noWebcamButton.setText("Webcam Disable")
+                        self.noWebcam = False
+        except OSError as e:
+            self.noWebcam = False
+            self.noWebcamButton.setText("Webcam Disable")
+        except Exception as e:
+            print("Unexpected Exception")
             
-
     def darkmodeFunc(self):
         try:
             r = REGO_reg.REGO_reg()
-            hKey = r.openHReg(winreg.HKEY_CURRENT_USER, "Software\Microsoft\Windows\CurrentVersion\Themes\Personalize")
+            hKey = r.openHReg(winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize")
             if self.dark:
                 r.setReg(hKey, "AppsUseLightTheme", REGO_reg.TYPE["REG_DWORD"], 1)
                 self.darkmodeButton.setText("Dark Mode")
@@ -287,19 +323,88 @@ class UtilClass(QDialog, form_util):
             print(e)
 
     def noWinUpdateFunc(self):
-        pass
+        try:
+            r = REGO_reg.REGO_reg()
+            hKey = r.openHRegCreate(winreg.HKEY_CURRENT_USER, "Software\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU")
+
+            # Enable autoUpdate
+            if self.noUpdate:
+                r.setReg(hKey, "NoAutoUpdate", REGO_reg.TYPE["REG_DWORD"], 0)
+                self.noWinUpdateButton.setText("No Auto Update")
+                self.noUpdate = False
+            
+            # Disable autoUpdate
+            else:
+                r.setReg(hKey, "NoAutoUpdate", REGO_reg.TYPE["REG_DWORD"], 1)
+                self.noWinUpdateButton.setText("Auto Update")
+                self.noUpdate = True
+            r.closeHReg(hKey)
+        except Exception as e:
+            print(e)
         
     def noWebcamFunc(self):
-        pass
-        
-    def systemTimeFunc(self):
-        pass
+        try:
+            r = REGO_reg.REGO_reg()
+            hKey = r.openHReg(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\webcam")
+
+            # Enable webcam
+            if self.noWebcam:
+                r.setReg(hKey, "Value", REGO_reg.TYPE["REG_SZ"], "Allow")
+                self.noWebcamButton.setText("Webcam disable")
+                self.noWebcam = False
+            
+            # Disable Webcam
+            else:
+                r.setReg(hKey, "Value", REGO_reg.TYPE["REG_SZ"], "Deny")
+                self.noWebcamButton.setText("Webcam enable")
+                self.noWebcam = True
+            r.closeHReg(hKey)
+        except Exception as e:
+            print(e)
+
+    def regeditFunc(self):
+        os.system("C:\\Windows\\System32\\regedt32.exe")
 
     def computerInfoFunc(self):
-        pass
+        try:
+            r = REGO_reg.REGO_reg()
+            result = r.getReg(winreg.HKEY_LOCAL_MACHINE, "SYSTEM\\ControlSet001\\Control\\ComputerName\\ActiveComputerName")
+            for r in result:
+                if r[0] == 'ComputerName':
+                    msg = QMessageBox()
+                    msg.setIcon(QMessageBox.Information)
+                    msg.setText(r[1])
+                    msg.setWindowTitle("Computer Name")
+                    msg.setStandardButtons(QMessageBox.Ok)
+                    msg.exec_()
+        except Exception as e:
+            print("Unexpected Exception:", e)
 
-    def userInfoFunc(self):
-        pass
+    def lastShutdownTimeFunc(self):
+        time_bin = ""
+        try:
+            r = REGO_reg.REGO_reg()
+            result = r.getReg(winreg.HKEY_LOCAL_MACHINE, "SYSTEM\\ControlSet001\\Control\\Windows")
+            for r in result:
+                if r[0] == 'ShutdownTime':
+                    for t in r[1]:
+                        print(t)
+                        time_bin += hex(t)[2:].zfill(2)
+                    print(time_bin)
+                    nt_timestamp = struct.unpack("<Q", unhexlify(time_bin))[0]
+                    epoch = datetime(1601, 1, 1, 9, 0, 0)
+                    nt_datetime = epoch + timedelta(microseconds=nt_timestamp / 10)
+
+        except Exception as e:
+            print("Unexpected Exception:", e)
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        # msg.setText(nt_datetime.strftime("%c"))
+        msg.setText(nt_datetime.strftime("%Y/%m/%d (%A) - %H:%M:%S"))
+        msg.setWindowTitle("Last Shutdown Time")
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()
+        
 
 # Declare a class for Main Window
 class WindowClass(QMainWindow, form_main):

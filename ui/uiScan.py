@@ -27,9 +27,9 @@ class Ui_Scan(object):
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.buttonToSettings = QtWidgets.QPushButton(self.horizontalLayoutWidget)
-        self.buttonToSettings.setObjectName("buttonToSettings")
-        self.horizontalLayout_2.addWidget(self.buttonToSettings)
+        # self.buttonToSettings = QtWidgets.QPushButton(self.horizontalLayoutWidget)
+        # self.buttonToSettings.setObjectName("buttonToSettings")
+        # self.horizontalLayout_2.addWidget(self.buttonToSettings)
         self.buttonToStart = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.buttonToStart.setObjectName("buttonToStart")
         self.horizontalLayout_2.addWidget(self.buttonToStart)
@@ -40,7 +40,7 @@ class Ui_Scan(object):
     def retranslateUi(self, Scan):
         _translate = QtCore.QCoreApplication.translate
         Scan.setWindowTitle(_translate("Scan", "Scan"))
-        self.buttonToSettings.setText(_translate("Scan", "Settings"))
+        # self.buttonToSettings.setText(_translate("Scan", "Settings"))
         self.buttonToStart.setText(_translate("Scan", "Start"))
 
 

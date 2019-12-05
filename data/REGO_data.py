@@ -54,12 +54,13 @@ class reg_scan_data:
     # def add_reg(self, reg_info):
     #     self.reg_list.append(reg_info)
     
-    def add_reg(self, HIVE, PATH, ATTRIBUTE, TYPE, VULN_VAL, SAFE_VAL, DESC):
-        r = self.reg_info(HIVE, PATH, ATTRIBUTE, TYPE, VULN_VAL, SAFE_VAL, DESC)
+    def add_reg(self, NAME, HIVE, PATH, ATTRIBUTE, TYPE, VULN_VAL, SAFE_VAL, DESC):
+        r = self.reg_info(NAME, HIVE, PATH, ATTRIBUTE, TYPE, VULN_VAL, SAFE_VAL, DESC)
         self.reg_info_list.append(r)
 
     class reg_info:
-        def __init__(self, HIVE, PATH, ATTRIBUTE, TYPE, VULN_VAL: list, SAFE_VAL: list, DESC):
+        def __init__(self, NAME, HIVE, PATH, ATTRIBUTE, TYPE, VULN_VAL: list, SAFE_VAL: list, DESC):
+            self.NAME = NAME
             self.HIVE = HIVE
             self.PATH = PATH
             self.ATTRIBUTE = ATTRIBUTE

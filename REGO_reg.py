@@ -30,6 +30,10 @@ class REGO_reg:
         hKey = winreg.OpenKey(HIVE, PATH, access=winreg.KEY_ALL_ACCESS)
         return hKey
 
+    def openHRegCreate(self, HIVE, PATH):
+        hkey = winreg.CreateKeyEx(HIVE, PATH, access=winreg.KEY_ALL_ACCESS)
+        return hkey
+
     # Reg Handle                        : Close Reg Handle  
     def closeHReg(self, hkey):
         winreg.CloseKey(hkey)
