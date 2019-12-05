@@ -1,5 +1,6 @@
-# vscode setting
+# settings
 .vscode
+.idea
 
 # no dump, diff files
 *.dump

@@ -7,21 +7,19 @@ One-Click Registry Management Tool with GUI
 ### OS
 Windows10
 
-### Prerequisites
-
-Following python modules are required
-
-```
-pip install pyqt5
-pip install jsondiff
-```
-
 ### Installing
-
 
 ```
 git clone https://github.com/SecOfSW/rego.git
 ```
+
+### Requirement
+
+Following python modules are required
+
+```
+pip install -r requirements.txt
+``
 
 
 ## Running the tools
@@ -52,8 +50,6 @@ Dump registry related to users.
 Also, support making diff of two dump files.
 - **Utility**
 Activate functions with one-click.
-<u> Only DarkMode/WhiteMode works for now. </u>
-We will update later.
 
 
 ## Built With
