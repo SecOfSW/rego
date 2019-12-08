@@ -18,3 +18,8 @@ __pycache__
 
 # no report file
 *.docx
+
+# no build file
+*.spec
+build
+dist

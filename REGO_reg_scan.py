@@ -1,5 +1,5 @@
 from docx import Document
-from docx.shared import Pt
+from docx.shared import Pt, RGBColor
 import winreg
 import REGO_reg
 import data
@@ -73,7 +73,11 @@ class REGO_reg_scan(REGO_reg.REGO_reg):
         self.document.save('report.docx')
 
     def input_docx(self, NAME, HIVE, PATH, ATTRIBUTE, CURRENT_VALUE, SAFE_VALUE, DESC):
-        self.document.add_heading(NAME, level=2)
+        h = self.document.add_heading(NAME, level=2)
+        if CURRENT_VALUE in SAFE_VALUE:
+            h.add_run("SAFE").font.color.rgb = RGBColor(0x22, 0x8B, 0x22)
+        else:
+            h.add_run("DANGER").font.color.rgb = RGBColor(0xFF, 0x00, 0x00)
         p = self.document.add_paragraph("[HIVE]\n" + str(HIVE) + '\n\n')
         p.add_run("[PATH]\n" + str(PATH) + '\n\n')
         p.add_run("[ATTRIBUTE]\n" + str(ATTRIBUTE) + '\n\n')

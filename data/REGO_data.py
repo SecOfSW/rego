@@ -83,6 +83,3 @@ class reg_monitor_data:
     def add_attr(self, HIVE, PATH, ATTRIBUTENAME):
         tup = (HIVE, PATH, ATTRIBUTENAME)
         self.attr_input.append(tup)
-    
-    
-

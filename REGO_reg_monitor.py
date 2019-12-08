@@ -29,12 +29,12 @@ attr_dict =
 # Class for RegMonitor
 class REGO_reg_monitor(REGO_reg.REGO_reg):
     def __init__(self):
-        self.key_input = []
-        self.attr_input = []
-        # self.key_input = data.mon_reg.key_input
-        # self.attr_input = data.mon_reg.attr_input
-        self.key_input.append((winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Run'))
+        # self.key_input = []
+        # self.attr_input = []
 
+        self.key_input = data.mon_reg.key_input
+        self.attr_input = data.mon_reg.attr_input
+        
     def monitor(self):
         # INITIALIZE key_dict
         self.key_dict = {}
