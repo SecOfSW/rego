@@ -23,6 +23,8 @@ pip install -r requirements.txt
 
 ## Running the tools
 
+***__Need to be run as ADMINISTRATOR privilege__***
+
 After cloning the repo, just run `REGO_main.py`
 
 ```
