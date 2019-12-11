@@ -21,6 +21,11 @@ Following python modules are required
 pip install -r requirements.txt
 ```
 
+If you get PyQt5 ImportError, try this:
+```
+pip install --upgrade pyqt5
+```
+
 ## Running the tools
 
 ***__Need to be run as ADMINISTRATOR privilege__***
