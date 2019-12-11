@@ -35,6 +35,7 @@ form_monitor = ui.uiMonitor.Ui_Monitor
 form_dump = ui.uiDump.Ui_Dump
 form_util = ui.uiUtil.Ui_Util
 
+# Scanning thread used in ScanClass 
 class ScanWorker(QThread):
     changeValue = pyqtSignal(int)
     countSignal = pyqtSignal(str)
@@ -75,6 +76,7 @@ class ScanClass(QDialog, form_scan):
     # def settingsBtnFunc(self):
     #     pass
 
+    # function for Start button
     def startBtnFunc(self):
         self.th.start()
         self.th.working = True
@@ -84,6 +86,7 @@ class ScanClass(QDialog, form_scan):
     def textUpdate(self, msg):
         self.scanText.append(msg)
     
+# Monitoring thread used in MonitorClass
 class MonitorWorker(QThread):
     countSignal = pyqtSignal(str)
     def __init__(self):
@@ -92,7 +95,7 @@ class MonitorWorker(QThread):
     def run(self):
         rm = REGO_reg_monitor.REGO_reg_monitor()
         rm.monitor()
-        while self.working:
+        while self.working: # check the values at 5 second intervals
             result = rm.monitor_start()
             self.countSignal.emit(str(result))
             self.sleep(5)
@@ -114,6 +117,7 @@ class MonitorClass(QDialog, form_monitor):
     # def settingsBtnFunc(self):
         # pass
 
+    # function for Start button
     def startBtnFunc(self):
         if self.buttonToStart.status:
             self.th.terminate()
@@ -129,6 +133,7 @@ class MonitorClass(QDialog, form_monitor):
     def textUpdate(self, msg):
         self.monitorText.setText(msg)
 
+# dumping thread used in DumpClass
 class DumpWorker(QThread):
     doneSignal = pyqtSignal(bool)
     def __init__(self):
@@ -144,6 +149,7 @@ class DumpWorker(QThread):
         self.working = False
         self.doneSignal.emit(True)
 
+# diffing thread used in DumpClass
 class DiffWorker(QThread):
     doneSignal = pyqtSignal(bool)
     errorSignal = pyqtSignal(Exception)
@@ -194,6 +200,7 @@ class DumpClass(QDialog, form_dump):
         self.th2.doneSignal.connect(self.dumpButton.setEnabled)
         self.th2.errorSignal.connect(self.errorFunc)
         
+    # function for DUMP button
     def dumpFunc(self): 
         self.th1.working=True
         self.th1.start()
@@ -201,6 +208,7 @@ class DumpClass(QDialog, form_dump):
         self.diffButton.setDisabled(True)
             # show progress GUI while self.th1.working is True
             
+    # function for DIFF button
     def diffFunc(self):
         file1 = self.dumpDir1.text()
         file2 = self.dumpDir2.text()
