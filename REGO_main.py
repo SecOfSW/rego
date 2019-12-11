@@ -22,10 +22,6 @@ from binascii import unhexlify
 from datetime import datetime, timedelta
 
 import os
-"""
-    1. 데이터 선별해서 넣기 
-    (4). 레지스트리를 어떤 프로그램이 변경하고자 하는지 확인가능한가
-"""
 
 # load UI file
 # form_main = uic.loadUiType("ui/Main.ui")[0]
@@ -60,7 +56,8 @@ class ScanWorker(QThread):
             self.changeValue.emit(int(i * 100 / len(result)))
         self.countSignal.emit("[+] (Scan Finished) Please check 'report.docx'.\n")
         self.doneSignal.emit(True)
-        
+
+# Declare a class for Scan Window        
 class ScanClass(QDialog, form_scan):
     def __init__(self):
         super().__init__()
@@ -100,6 +97,7 @@ class MonitorWorker(QThread):
             self.countSignal.emit(str(result))
             self.sleep(5)
 
+# Declare a class for Monitor Window
 class MonitorClass(QDialog, form_monitor):
     def __init__(self):
         super().__init__()
@@ -171,6 +169,7 @@ class DiffWorker(QThread):
         os.startfile(path)
         self.doneSignal.emit(True)
 
+# Declare a class for Dump Window
 class DumpClass(QDialog, form_dump):
     def __init__(self):
         super().__init__()
@@ -240,7 +239,8 @@ class DumpClass(QDialog, form_dump):
     def dirFunc2(self):
         dir2 = QFileDialog.getOpenFileName(self, "Open Dump", "./", "DUMP Files (*.dump)")
         self.dumpDir2.setText(dir2[0])
-    
+
+# Declare a class for Util Window 
 class UtilClass(QDialog, form_util):
     def __init__(self):
         super().__init__()
@@ -305,15 +305,18 @@ class UtilClass(QDialog, form_util):
             self.noWebcamButton.setText("Webcam Disable")
         except Exception as e:
             print("Unexpected Exception")
-            
+
+    # Dark Mode Enable / Disable        
     def darkmodeFunc(self):
         try:
             r = REGO_reg.REGO_reg()
             hKey = r.openHReg(winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize")
+            # Disable Dark Mode
             if self.dark:
                 r.setReg(hKey, "AppsUseLightTheme", REGO_reg.TYPE["REG_DWORD"], 1)
                 self.darkmodeButton.setText("Dark Mode")
                 self.dark = False
+            # Enable Dark Mode
             else:
                 r.setReg(hKey, "AppsUseLightTheme", REGO_reg.TYPE["REG_DWORD"], 0)
                 self.darkmodeButton.setText("White Mode")
@@ -322,6 +325,7 @@ class UtilClass(QDialog, form_util):
         except Exception as e:
             print(e)
 
+    # Window AutoUpdate Enable / Disable
     def noWinUpdateFunc(self):
         try:
             r = REGO_reg.REGO_reg()
@@ -341,7 +345,8 @@ class UtilClass(QDialog, form_util):
             r.closeHReg(hKey)
         except Exception as e:
             print(e)
-        
+
+    # Webcam Enable / Disable      
     def noWebcamFunc(self):
         try:
             r = REGO_reg.REGO_reg()
@@ -362,9 +367,11 @@ class UtilClass(QDialog, form_util):
         except Exception as e:
             print(e)
 
+    # Open REGEDIT
     def regeditFunc(self):
         os.system("C:\\Windows\\System32\\regedt32.exe")
 
+    # Show Computer Name
     def computerInfoFunc(self):
         try:
             r = REGO_reg.REGO_reg()
@@ -380,6 +387,7 @@ class UtilClass(QDialog, form_util):
         except Exception as e:
             print("Unexpected Exception:", e)
 
+    # Show last Shutdown Time
     def lastShutdownTimeFunc(self):
         time_bin = ""
         try:
@@ -405,7 +413,6 @@ class UtilClass(QDialog, form_util):
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec_()
         
-
 # Declare a class for Main Window
 class WindowClass(QMainWindow, form_main):
     def __init__(self, parent=None):
@@ -419,27 +426,25 @@ class WindowClass(QMainWindow, form_main):
         self.buttonToDump.clicked.connect(self.dumpBtnFunc)
         self.buttonToUtil.clicked.connect(self.utilBtnFunc)
 
+    # SCAN button PUSHED
     def scanBtnFunc(self):
-        # self.setEnabled(False)
-        # self.scan.show()
         self.scan = ScanClass()
         self.scan.exec_()
-        # print("btn_1 Clicked")
 
+    # MONITOR button PUSHED
     def monitorBtnFunc(self):
         self.monitor = MonitorClass()
         self.monitor.exec_()
-        # print("btn_2 Clicked")
 
+    # DUMP button PUSHED
     def dumpBtnFunc(self):
         self.dump = DumpClass()
         self.dump.exec_()
-        # print("btn_3 Clicked")
 
+    # UTIL button PUSHED
     def utilBtnFunc(self):
         self.util = UtilClass()
         self.util.exec_()
-        # print("btn_4 Clicked")
 
 if __name__ == '__main__':
     app = QApplication([])

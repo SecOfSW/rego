@@ -12,10 +12,10 @@
     ...
 ]
 
-# 감시하고자 하는 Key (변경 확인 + attribute 추가 여부 확인))   ex) Autoruns
+# Key to be monitored (Modification check + Attribute Addition check))   ex) Autoruns
 key_input = [(HIVE, PATH), ..]
 
-# 감시하고자 하는 Attribute (변경 확인)
+# Attribute to be monitored (Modification check)
 attr_input = [(HIVE, PATH, ATTRIBUTENAME), ..]
 """
 
@@ -46,18 +46,17 @@ REG_EXPAND_SZ   = 2
 REG_BINARY      = 3
 REG_DWORD       = 4
 
-# Data for scanning
+# Data for Scanning
 class reg_scan_data:
     def __init__(self):
         self.reg_info_list = []
-    
-    # def add_reg(self, reg_info):
-    #     self.reg_list.append(reg_info)
-    
+     
+    # add registry and its corresponding safe/vulnerable value
     def add_reg(self, NAME, HIVE, PATH, ATTRIBUTE, TYPE, VULN_VAL, SAFE_VAL, DESC):
         r = self.reg_info(NAME, HIVE, PATH, ATTRIBUTE, TYPE, VULN_VAL, SAFE_VAL, DESC)
         self.reg_info_list.append(r)
-
+    
+    # Registry Information
     class reg_info:
         def __init__(self, NAME, HIVE, PATH, ATTRIBUTE, TYPE, VULN_VAL: list, SAFE_VAL: list, DESC):
             self.NAME = NAME
@@ -71,15 +70,18 @@ class reg_scan_data:
         def __repr__(self):
             return str(self.__dict__)
 
+# Data for Monitoring
 class reg_monitor_data:
     def __init__(self):
         self.key_input = []
         self.attr_input = []
 
+    # add key to be monitored
     def add_key(self, HIVE, PATH):
         tup = (HIVE, PATH)
         self.key_input.append(tup)
     
+    # add attribute to be monitored
     def add_attr(self, HIVE, PATH, ATTRIBUTENAME):
         tup = (HIVE, PATH, ATTRIBUTENAME)
         self.attr_input.append(tup)

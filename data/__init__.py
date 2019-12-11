@@ -23,11 +23,15 @@ from winreg import HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, HKEY_USERS
 
 __all__ = ['REGO_data']
 
-sec_reg = reg_scan_data()
+# data for REG_MONITOR
 mon_reg = reg_monitor_data()
 
 mon_reg.add_key(HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Run')
 mon_reg.add_key(HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce')
+
+
+# data for REG_SCAN
+sec_reg = reg_scan_data()
 
 # 1. WEBCAM SHOULD BE TURNED OFF
 sec_reg.add_reg(NAME="Webcam on/off",

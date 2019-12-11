@@ -17,12 +17,15 @@ import data
 ]
 """
 
+# the max number of scan data
 MAX_NUM = 100000
+
 class REGO_reg_scan(REGO_reg.REGO_reg):
     def __init__(self):
         pass
     
     def scan(self):
+        # INITIALIZE pydocx
         self.init_docx()
 
         # Information of registries with vulnerable value
@@ -39,14 +42,17 @@ class REGO_reg_scan(REGO_reg.REGO_reg):
             attList = []
             try:
                 attList =  self.getReg(HIVE=HIVE, PATH=PATH)
+            # If there is NO that registry
             except Exception as e:
                 print("[{0}] {1:130} - NOT found".format(str(i), REGO_reg.hiveIntToStr(HIVE)+"\\"+str(PATH)+"\\"+str(ATTRIBUTE)))
                 continue
 
             for _ in attList:
                 if _[0] == ATTRIBUTE:
+                    # print the scan result
                     print("[{0}] {1:130} - <CURRENT_VAL>: {2:>10}, <SAFE_VAL>: {3:>10}, <VULN_VAL>: {4:>10}, <DESC>: {5}".format(str(i), REGO_reg.hiveIntToStr(HIVE)+"\\"+str(PATH)+"\\"+str(ATTRIBUTE), _[1], str(SAFE_VAL), str(VULN_VAL), DESC)) 
                     self.input_docx(NAME, REGO_reg.hiveIntToStr(HIVE), PATH, ATTRIBUTE, _[1], SAFE_VAL, DESC)
+                    # if the value is not SAFE, record it
                     if _[1] not in SAFE_VAL:
                         scan_result.append({
                                             "HIVE": REGO_reg.hiveIntToStr(HIVE), 
@@ -59,6 +65,7 @@ class REGO_reg_scan(REGO_reg.REGO_reg):
         self.end_docx()
         return scan_result
         
+    # INITIALIZE docx: Make header
     def init_docx(self):
         self.document = Document()
         self.document.styles['Heading 1'].font.size = Pt(18)
@@ -68,10 +75,12 @@ class REGO_reg_scan(REGO_reg.REGO_reg):
         p.add_run('Security related registery checked.')
         self.document.add_heading('Checked Registery', level=1)
 
+    # END docx: save the docx
     def end_docx(self):
         self.document.add_page_break()
         self.document.save('report.docx')
 
+    # INPUT docx: add the result of scan to docx
     def input_docx(self, NAME, HIVE, PATH, ATTRIBUTE, CURRENT_VALUE, SAFE_VALUE, DESC):
         h = self.document.add_heading(NAME, level=2)
         if CURRENT_VALUE in SAFE_VALUE:
